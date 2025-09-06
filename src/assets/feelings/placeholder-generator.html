@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Generate Placeholder Feeling Images</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      .feeling {
+        margin: 20px 0;
+      }
+      canvas {
+        border: 1px solid #ccc;
+        margin: 10px;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Generate Placeholder Feeling Images</h1>
+    <p>This will create 24 placeholder images for the feeling backgrounds.</p>
+
+    <div id="feelings"></div>
+
+    <button onclick="downloadAll()">Download All Images</button>
+
+    <script>
+      const feelings = [
+        // Good Body
+        { key: "comfortable", label: "Comfortable", color: "#E8F5E8" },
+        { key: "relaxed", label: "Relaxed", color: "#F0F8FF" },
+        { key: "ok", label: "I'm OK", color: "#FFF8DC" },
+        { key: "warm", label: "Warm", color: "#FFE4E1" },
+        { key: "strong", label: "Strong", color: "#E6E6FA" },
+        { key: "energetic", label: "Energetic", color: "#F0FFF0" },
+
+        // Good Feelings
+        { key: "happy", label: "Happy", color: "#FFFFE0" },
+        { key: "excited", label: "Excited", color: "#FFE4B5" },
+        { key: "loved", label: "Loved", color: "#FFB6C1" },
+        { key: "calm", label: "Calm", color: "#E0FFFF" },
+        { key: "proud", label: "Proud", color: "#DDA0DD" },
+        { key: "silly", label: "Silly", color: "#F5DEB3" },
+
+        // Bad Feelings
+        { key: "sad", label: "Sad", color: "#F0F8FF" },
+        { key: "bored", label: "Bored", color: "#F5F5DC" },
+        { key: "scared", label: "Scared", color: "#E6E6FA" },
+        { key: "worried", label: "Worried", color: "#FFF8DC" },
+        { key: "embarrassed", label: "Embarrassed", color: "#FFE4E1" },
+        { key: "angry", label: "Angry", color: "#FFE4B5" },
+
+        // Bad Body
+        { key: "cold", label: "Cold", color: "#E0FFFF" },
+        { key: "hurt", label: "Hurt", color: "#FFB6C1" },
+        { key: "sick", label: "Sick", color: "#F0FFF0" },
+        { key: "tired", label: "Tired", color: "#F5F5DC" },
+        { key: "dizzy", label: "Dizzy", color: "#E6E6FA" },
+        { key: "itchy", label: "Itchy", color: "#FFF8DC" },
+      ];
+
+      function createFeelingImage(feeling) {
+        const canvas = document.createElement("canvas");
+        canvas.width = 512;
+        canvas.height = 512;
+        const ctx = canvas.getContext("2d");
+
+        // Background
+        ctx.fillStyle = feeling.color;
+        ctx.fillRect(0, 0, 512, 512);
+
+        // Border
+        ctx.strokeStyle = "#333";
+        ctx.lineWidth = 4;
+        ctx.strokeRect(2, 2, 508, 508);
+
+        // Emoji based on feeling
+        const emojis = {
+          comfortable: "😌",
+          relaxed: "😊",
+          ok: "👍",
+          warm: "🔥",
+          strong: "💪",
+          energetic: "⚡",
+          happy: "😄",
+          excited: "🤩",
+          loved: "❤️",
+          calm: "😌",
+          proud: "😎",
+          silly: "😜",
+          sad: "😢",
+          bored: "😴",
+          scared: "😨",
+          worried: "😟",
+          embarrassed: "😳",
+          angry: "😠",
+          cold: "🥶",
+          hurt: "🤕",
+          sick: "🤒",
+          tired: "😴",
+          dizzy: "😵",
+          itchy: "🤢",
+        };
+
+        ctx.font = "200px Arial";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#333";
+        ctx.fillText(emojis[feeling.key] || "😐", 256, 256);
+
+        return canvas;
+      }
+
+      function downloadCanvas(canvas, filename) {
+        const link = document.createElement("a");
+        link.download = filename;
+        link.href = canvas.toDataURL();
+        link.click();
+      }
+
+      function downloadAll() {
+        feelings.forEach((feeling) => {
+          const canvas = createFeelingImage(feeling);
+          setTimeout(() => {
+            downloadCanvas(canvas, `${feeling.key}.png`);
+          }, feelings.indexOf(feeling) * 100);
+        });
+      }
+
+      // Display all feelings
+      feelings.forEach((feeling) => {
+        const div = document.createElement("div");
+        div.className = "feeling";
+        div.innerHTML = `
+                <h3>${feeling.label}</h3>
+                <canvas id="${feeling.key}" width="512" height="512"></canvas>
+                <button onclick="downloadCanvas(document.getElementById('${feeling.key}'), '${feeling.key}.png')">Download</button>
+            `;
+        document.getElementById("feelings").appendChild(div);
+
+        const canvas = document.getElementById(feeling.key);
+        const ctx = canvas.getContext("2d");
+
+        // Background
+        ctx.fillStyle = feeling.color;
+        ctx.fillRect(0, 0, 512, 512);
+
+        // Border
+        ctx.strokeStyle = "#333";
+        ctx.lineWidth = 4;
+        ctx.strokeRect(2, 2, 508, 508);
+
+        // Emoji
+        const emojis = {
+          comfortable: "😌",
+          relaxed: "😊",
+          ok: "👍",
+          warm: "🔥",
+          strong: "💪",
+          energetic: "⚡",
+          happy: "😄",
+          excited: "🤩",
+          loved: "❤️",
+          calm: "😌",
+          proud: "😎",
+          silly: "😜",
+          sad: "😢",
+          bored: "😴",
+          scared: "😨",
+          worried: "😟",
+          embarrassed: "😳",
+          angry: "😠",
+          cold: "🥶",
+          hurt: "🤕",
+          sick: "🤒",
+          tired: "😴",
+          dizzy: "😵",
+          itchy: "🤢",
+        };
+
+        ctx.font = "200px Arial";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#333";
+        ctx.fillText(emojis[feeling.key] || "😐", 256, 256);
+      });
+    </script>
+  </body>
+</html>
