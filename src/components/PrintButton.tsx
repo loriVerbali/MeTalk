@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import type { Category } from "../types";
-import { generateCollagePDF } from "../lib/collage";
 import { analytics } from "../lib/analytics";
 
 interface PrintButtonProps {
@@ -9,11 +8,7 @@ interface PrintButtonProps {
   disabled?: boolean;
 }
 
-const PrintButton: React.FC<PrintButtonProps> = ({
-  categories,
-  composedTiles,
-  disabled = false,
-}) => {
+const PrintButton: React.FC<PrintButtonProps> = ({ disabled = false }) => {
   const [isGenerating, setIsGenerating] = useState(false);
 
   const handlePrint = async () => {

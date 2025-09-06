@@ -60,7 +60,6 @@ export const replaceFaceInImage = async (
     };
   }
 
-  const startTime = Date.now();
   let lastError: string = "";
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
@@ -272,7 +271,6 @@ export const generateFeelingImageDirectly = async (
     };
   }
 
-  const startTime = Date.now();
   let lastError: string = "";
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
@@ -460,7 +458,6 @@ export const generateAvatar = async (
     };
   }
 
-  const startTime = Date.now();
   let lastError: string = "";
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
@@ -565,8 +562,6 @@ export const generateAvatar = async (
       }
 
       const blob = new Blob([bytes], { type: "image/png" });
-
-      const latency = Date.now() - startTime;
 
       return {
         success: true,

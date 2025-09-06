@@ -46,7 +46,7 @@ npm run dev
 - ✅ High contrast mode toggle
 - ✅ Keyboard navigation
 - ✅ Print collage functionality
-- ✅ Session limits (2 avatars max)
+- ✅ Session limits (5 avatars max)
 
 ## 6. Troubleshooting
 

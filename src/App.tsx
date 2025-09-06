@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useAppStore } from "./state/useAppStore";
 import { initSession } from "./lib/session";
 import DisclaimerBanner from "./components/DisclaimerBanner";
+import Footer from "./components/Footer";
 import Upload from "./routes/Upload";
 // AvatarReview route removed - now using direct feeling image generation
 import Board from "./routes/Board";
@@ -33,6 +34,7 @@ function App() {
             <Route path="/board" element={<Board />} />
             <Route path="/print" element={<PrintPreview />} />
           </Routes>
+          <Footer />
         </div>
       </Router>
     );

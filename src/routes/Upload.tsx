@@ -58,7 +58,10 @@ const Upload: React.FC = () => {
         const startTime = Date.now();
 
         // Store the original uploaded file
-        setAvatar({ originalFile: validation.processedFile || file });
+        const fileToStore = validation.processedFile
+          ? new File([validation.processedFile], file.name, { type: file.type })
+          : file;
+        setAvatar({ originalFile: fileToStore });
         incrementAvatarsCreated();
 
         const latency = Date.now() - startTime;
@@ -77,11 +80,6 @@ const Upload: React.FC = () => {
     },
     [navigate, setAvatar, incrementAvatarsCreated]
   );
-
-  const showToast = (message: string, type: "success" | "error") => {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 5000);
-  };
 
   return (
     <div className="min-h-screen">

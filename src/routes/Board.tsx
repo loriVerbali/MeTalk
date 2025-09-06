@@ -125,11 +125,6 @@ const Board: React.FC = () => {
     analytics.languageChanged(newLanguage);
   };
 
-  const showToast = (message: string, type: "success" | "error") => {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 5000);
-  };
-
   if (!avatar) {
     return (
       <div className="min-h-screen">

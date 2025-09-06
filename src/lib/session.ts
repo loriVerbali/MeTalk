@@ -8,7 +8,7 @@ const SESSION_KEYS = {
 } as const;
 
 const SESSION_LIMITS = {
-  MAX_AVATARS: 2,
+  MAX_AVATARS: 5,
   COOLDOWN_MS: 5000, // 5 seconds between generations
 } as const;
 

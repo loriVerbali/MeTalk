@@ -83,7 +83,7 @@ src/
 
 ## Session Limits
 
-- Maximum 2 avatars per session
+- Maximum 5 avatars per session
 - 5-second cooldown between generations
 - Session resets on page refresh
 

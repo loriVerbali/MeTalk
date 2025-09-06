@@ -1,6 +1,6 @@
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import type { Category, TileSpec } from "../types";
+import type { Category } from "../types";
 
 export interface CollageOptions {
   title?: string;
