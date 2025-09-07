@@ -61,7 +61,7 @@ const PrintPreview: React.FC = () => {
 
     try {
       await generateCollagePDF(feelingsData, composedTiles, {
-        title: "My Feelings - MeTalk",
+        title: "My Feelings - HeroMe",
         includeCategories: true,
         tilesPerRow: 3,
         pageSize: "A4",

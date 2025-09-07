@@ -42,12 +42,15 @@ const Upload: React.FC = () => {
 
   const handleFileSelect = useCallback(
     async (file: File) => {
+      console.log("File selected:", file.name, file.type, file.size);
       setIsUploading(true);
       setError(null);
 
       try {
         // Validate upload
+        console.log("Starting validation...");
         const validation = await validateUpload(file);
+        console.log("Validation result:", validation);
         if (!validation.valid) {
           setError(validation.error || "Upload validation failed");
           analytics.uploadBlockedModeration();
@@ -68,13 +71,16 @@ const Upload: React.FC = () => {
         analytics.avatarCreated(latency, 0); // No retries needed for file storage
 
         // Navigate directly to board (skip avatar review)
+        console.log("Upload successful, navigating to board...");
         navigate("/board");
       } catch (err) {
+        console.error("Upload error:", err);
         const errorMessage =
           err instanceof Error ? err.message : "An unexpected error occurred";
         setError(errorMessage);
         analytics.error("upload_error", "upload");
       } finally {
+        console.log("Upload process finished");
         setIsUploading(false);
       }
     },
@@ -88,7 +94,7 @@ const Upload: React.FC = () => {
         <div className="w-full max-w-4xl mx-auto mb-lg">
           <div className="text-center mb-lg">
             <h1 className="text-4xl font-bold mb-md text-primary">
-              MeTalk Feelings Collage
+              HeroMe Feelings Collage
             </h1>
             <p className="text-xl text-text mb-lg">
               Upload an image and create an AAC feelings collage that looks like

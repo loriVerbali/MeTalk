@@ -9,7 +9,9 @@ const Footer: React.FC = () => {
           <p className="footer-text">
             Verbali is pioneering the next generation of AI-powered Augmentative
             and Alternative Communication (AAC) tools, making communication more
-            natural and accessible than ever before.
+            natural and accessible than ever before. Our Flagship app Ma-Talk AI
+            is available on the App Store and is a full featured contextually
+            aware AAC app that allows you to communicate with your loved ones.
           </p>
           <p className="footer-quote">
             "Because the most meaningful conversation is a natural one"

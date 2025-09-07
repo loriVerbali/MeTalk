@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import { useEffect } from "react";
 import { useAppStore } from "./state/useAppStore";
 import { initSession } from "./lib/session";
@@ -9,6 +14,16 @@ import Upload from "./routes/Upload";
 import Board from "./routes/Board";
 import PrintPreview from "./routes/PrintPreview";
 import "./styles/globals.css";
+
+// Component to conditionally render Footer
+const ConditionalFooter = () => {
+  const location = useLocation();
+  // Don't show footer on print preview page
+  if (location.pathname === "/print") {
+    return null;
+  }
+  return <Footer />;
+};
 
 function App() {
   try {
@@ -34,7 +49,7 @@ function App() {
             <Route path="/board" element={<Board />} />
             <Route path="/print" element={<PrintPreview />} />
           </Routes>
-          <Footer />
+          <ConditionalFooter />
         </div>
       </Router>
     );

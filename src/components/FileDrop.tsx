@@ -1,10 +1,11 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useRef } from "react";
 
 interface FileDropProps {
   onFileSelect: (file: File) => void;
   disabled?: boolean;
   acceptedTypes?: string[];
   maxSize?: number; // in bytes
+  onProcessingComplete?: () => void;
 }
 
 const FileDrop: React.FC<FileDropProps> = ({
@@ -12,9 +13,12 @@ const FileDrop: React.FC<FileDropProps> = ({
   disabled = false,
   acceptedTypes = ["image/*"],
   maxSize = 5 * 1024 * 1024, // 5MB
+  onProcessingComplete,
 }) => {
   const [isDragOver, setIsDragOver] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const validateFile = useCallback(
     (file: File): string | null => {
@@ -43,17 +47,47 @@ const FileDrop: React.FC<FileDropProps> = ({
 
   const handleFile = useCallback(
     (file: File) => {
-      setError(null);
-      const validationError = validateFile(file);
-
-      if (validationError) {
-        setError(validationError);
-        return;
+      console.log(
+        "FileDrop: handleFile called with:",
+        file.name,
+        "isProcessing:",
+        isProcessing
+      );
+      if (isProcessing) {
+        console.log("FileDrop: already processing, returning early");
+        return; // Prevent multiple simultaneous processing
       }
 
-      onFileSelect(file);
+      console.log("FileDrop: starting file processing");
+      setError(null);
+      setIsProcessing(true);
+
+      try {
+        console.log("FileDrop: validating file");
+        const validationError = validateFile(file);
+
+        if (validationError) {
+          console.log("FileDrop: validation failed:", validationError);
+          setError(validationError);
+          setIsProcessing(false);
+          return;
+        }
+
+        console.log("FileDrop: validation passed, calling onFileSelect");
+        onFileSelect(file);
+        // Reset processing state after a delay to allow parent to handle the file
+        setTimeout(() => {
+          console.log("FileDrop: resetting processing state");
+          setIsProcessing(false);
+          onProcessingComplete?.();
+        }, 100);
+      } catch (error) {
+        console.error("FileDrop: Error handling file:", error);
+        setError("An error occurred while processing the file");
+        setIsProcessing(false);
+      }
     },
-    [onFileSelect, validateFile]
+    [onFileSelect, validateFile, isProcessing, onProcessingComplete]
   );
 
   const handleDragOver = useCallback(
@@ -91,12 +125,21 @@ const FileDrop: React.FC<FileDropProps> = ({
 
   const handleFileInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
+      console.log("FileDrop: handleFileInput called");
       const files = e.target.files;
+      console.log("FileDrop: files from input:", files);
       if (files && files.length > 0) {
+        console.log("FileDrop: processing file:", files[0].name);
         handleFile(files[0]);
+      } else {
+        console.log("FileDrop: no files selected");
       }
       // Clear the input value so the same file can be selected again
-      e.target.value = "";
+      // Use setTimeout to avoid interfering with the file selection process
+      setTimeout(() => {
+        console.log("FileDrop: clearing input value");
+        e.target.value = "";
+      }, 0);
     },
     [handleFile]
   );
@@ -116,20 +159,27 @@ const FileDrop: React.FC<FileDropProps> = ({
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        onClick={() =>
-          !disabled && document.getElementById("file-input")?.click()
-        }
       >
         <input
+          ref={fileInputRef}
           id="file-input"
           type="file"
           accept={acceptedTypes.join(",")}
           onChange={handleFileInput}
           disabled={disabled}
-          className="hidden"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            opacity: 0,
+            cursor: "pointer",
+            zIndex: 1,
+          }}
         />
 
-        <div className="flex flex-col items-center gap-md">
+        <div className="flex flex-col items-center gap-md relative z-10 pointer-events-none">
           <div className="text-4xl">{isDragOver ? "📁" : "📸"}</div>
 
           <div>

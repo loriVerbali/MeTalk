@@ -367,15 +367,15 @@ const Board: React.FC = () => {
       const newComposedUrls = new Map<string, string>();
 
       try {
-        // Process all tiles
+        // Process only first tile for debugging
         let processedCount = 0;
-        const totalTiles = feelingsData.reduce(
-          (sum, category) => sum + category.tiles.length,
-          0
-        );
+        const maxTiles = 1; // Debug: only process 1 image
+        const totalTiles = maxTiles;
 
         for (const category of feelingsData) {
           for (const tile of category.tiles) {
+            if (processedCount >= maxTiles) break;
+
             try {
               console.log(
                 `🔄 Processing tile ${processedCount + 1}/${totalTiles}: ${
@@ -411,6 +411,7 @@ const Board: React.FC = () => {
               setImagesCreated(processedCount);
             }
           }
+          if (processedCount >= maxTiles) break;
         }
 
         setComposedTiles(newComposedTiles);
@@ -516,7 +517,7 @@ const Board: React.FC = () => {
               Creating your personalized feeling images...
             </div>
             <div className="text-2xl font-bold mb-sm text-primary">
-              {imagesCreated} / 24 images created
+              {imagesCreated} / 1 images created
             </div>
             <div
               className="text-xl font-medium mb-sm transition-all duration-500 ease-in-out"

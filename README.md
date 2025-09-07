@@ -1,4 +1,4 @@
-# MeTalk - AAC Demo
+# HeroME - AAC Demo
 
 A playful web demo that lets AAC-using kids (ages 3–9) turn a photo into a cartoon avatar, then instantly view that avatar in pre-made feeling scenes grouped by simple categories. Tapping any tile speaks the feeling in EN/ES/PT.
 

@@ -95,6 +95,11 @@
     display: none !important;
   }
 
+  /* Hide footer in print */
+  .footer {
+    display: none !important;
+  }
+
   .collage-grid {
     max-width: none !important;
     width: 80% !important;

@@ -144,6 +144,16 @@ export const generateCollagePDF = async (
       imgHeight * ratio
     );
 
+    // Add footer text
+    const footerText = "Made By Verbali.io";
+    const footerFontSize = 10;
+    const footerY = pdfHeight - 10;
+    const footerX = (pdfWidth - pdf.getTextWidth(footerText)) / 2;
+
+    pdf.setFontSize(footerFontSize);
+    pdf.setTextColor(100, 100, 100); // Gray color
+    pdf.text(footerText, footerX, footerY);
+
     // Open print dialog
     pdf.autoPrint();
     pdf.output("dataurlnewwindow");
