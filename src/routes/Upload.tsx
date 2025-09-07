@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppStore } from "../state/useAppStore";
-import { canCreateAvatar } from "../lib/session";
+import { canCreateAvatar, recordAvatarGeneration } from "../lib/session";
 import { validateUpload } from "../lib/moderation";
 // Avatar generation removed - now using direct feeling image generation
 import { analytics } from "../lib/analytics";
@@ -20,29 +20,19 @@ const Upload: React.FC = () => {
   } | null>(null);
   const [showHowItWorks, setShowHowItWorks] = useState(false);
 
-  const sessionCheck = useMemo(() => canCreateAvatar(), []);
-  if (!sessionCheck.allowed) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen p-lg">
-        <div className="card text-center max-w-md">
-          <h1 className="text-2xl font-bold text-error mb-md">
-            Session Limit Reached
-          </h1>
-          <p className="text-text-secondary mb-lg">{sessionCheck.reason}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="btn btn-primary"
-          >
-            Start Over
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   const handleFileSelect = useCallback(
     async (file: File) => {
       console.log("File selected:", file.name, file.type, file.size);
+
+      // Check cooldown before proceeding
+      const cooldownCheck = canCreateAvatar();
+      if (!cooldownCheck.allowed) {
+        setError(
+          cooldownCheck.reason || "Please wait before creating another avatar"
+        );
+        return;
+      }
+
       setIsUploading(true);
       setError(null);
 
@@ -66,6 +56,7 @@ const Upload: React.FC = () => {
           : file;
         setAvatar({ originalFile: fileToStore });
         incrementAvatarsCreated();
+        recordAvatarGeneration(); // Record generation time for cooldown
 
         const latency = Date.now() - startTime;
         analytics.avatarCreated(latency, 0); // No retries needed for file storage

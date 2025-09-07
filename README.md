@@ -81,11 +81,9 @@ src/
 - Focus indicators
 - ARIA labels
 
-## Session Limits
+## Rate Limiting
 
-- Maximum 5 avatars per session
-- 5-second cooldown between generations
-- Session resets on page refresh
+- 5-second cooldown between generations to prevent spam
 
 ## Browser Support
 

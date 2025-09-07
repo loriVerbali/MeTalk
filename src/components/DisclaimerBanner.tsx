@@ -15,12 +15,9 @@ const DisclaimerBanner: React.FC = () => {
         fontWeight: "500",
       }}
     >
-      <div style={{ marginBottom: "4px" }}>
-        <strong>Demo Version</strong> — No personal data is stored or saved
-      </div>
       <div style={{ fontSize: "12px", opacity: 0.8 }}>
-        This is not a medical device. For educational and demonstration purposes
-        only.
+        HeroMe is For educational and demonstration purposes only. HeroMe is not
+        a medical device.
       </div>
     </div>
   );

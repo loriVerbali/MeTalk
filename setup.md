@@ -46,7 +46,7 @@ npm run dev
 - ✅ High contrast mode toggle
 - ✅ Keyboard navigation
 - ✅ Print collage functionality
-- ✅ Session limits (5 avatars max)
+- ✅ Rate limiting (5-second cooldown)
 
 ## 6. Troubleshooting
 

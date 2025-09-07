@@ -1,7 +1,7 @@
 :root {
   /* Default colors */
   --color-primary: #4a90e2;
-  --color-secondary: #7ed321;
+  --color-secondary: #87ceeb;
   --color-accent: #f5a623;
   --color-background: #ffffff;
   --color-surface: #f8f9fa;
@@ -14,7 +14,7 @@
 
   /* High contrast colors */
   --color-primary-hc: #0000ff;
-  --color-secondary-hc: #00ff00;
+  --color-secondary-hc: #87ceeb;
   --color-accent-hc: #ff8000;
   --color-background-hc: #ffffff;
   --color-surface-hc: #ffffff;

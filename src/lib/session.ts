@@ -8,7 +8,6 @@ const SESSION_KEYS = {
 } as const;
 
 const SESSION_LIMITS = {
-  MAX_AVATARS: 5,
   COOLDOWN_MS: 5000, // 5 seconds between generations
 } as const;
 
@@ -34,17 +33,8 @@ export const incrementAvatarsCreated = (): number => {
   return newCount;
 };
 
-// Check if user can create another avatar
+// Check if user can create another avatar (only checks cooldown, no session limit)
 export const canCreateAvatar = (): { allowed: boolean; reason?: string } => {
-  const avatarsCreated = getAvatarsCreated();
-
-  if (avatarsCreated >= SESSION_LIMITS.MAX_AVATARS) {
-    return {
-      allowed: false,
-      reason: `You can create up to ${SESSION_LIMITS.MAX_AVATARS} avatars per session. Please refresh the page to start a new session.`,
-    };
-  }
-
   const lastGeneration = sessionStorage.getItem(
     SESSION_KEYS.LAST_GENERATION_TIME
   );
@@ -110,10 +100,4 @@ export const isNewSession = (): boolean => {
 
   const sessionAge = Date.now() - parseInt(sessionStart, 10);
   return sessionAge < 5 * 60 * 1000; // 5 minutes
-};
-
-// Get remaining avatars in session
-export const getRemainingAvatars = (): number => {
-  const created = getAvatarsCreated();
-  return Math.max(0, SESSION_LIMITS.MAX_AVATARS - created);
 };

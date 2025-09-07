@@ -46,12 +46,6 @@ export const useAppStore = create<AppStore>()(
         const current = get().avatarsCreated;
         const newCount = current + 1;
         set({ avatarsCreated: newCount });
-        // Also update sessionStorage to keep it in sync
-        sessionStorage.setItem("metalk_avatars_created", newCount.toString());
-        sessionStorage.setItem(
-          "metalk_last_generation_time",
-          Date.now().toString()
-        );
       },
 
       reset: () => {
